@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ToDoList——最简单的待办事项列表</title>
+	<style type="text/css">
+		body{
+			padding: 0;
+			margin: 0;
+			background: #CDCDCD;
+		}
+
+		.top{
+			width: 100%;
+			height: 50px;
+			margin: 0;
+			background: rgba(47,47,47,0.98);
+		}
+
+		div:only-child{
+			width: 600px;
+			height: 100%;
+			min-width: 300px;
+			margin: 0 auto;
+		}
+
+		a:nth-child(1){
+			width: 100px;
+			height: 50px;
+			line-height: 50px;
+			float: left;
+    	color: #DDD;
+    	font-size: 24px;
+    	font-family: "Helvetica";
+    	text-decoration: none;
+		}
+
+		.putclass{
+			width: 60%;
+			height: 24px;
+			margin-top: 12px;
+			text-indent: 10px;
+			border: none;
+			border-radius: 5px;
+    	box-shadow: 0 1px 0 rgba(255,255,255,0.24), 0 1px 6px rgba(0,0,0,0.45) inset;
+			float: right;
+		}
+
+		.content{
+			width: 600px;
+			height: 100%;
+			padding: 0 10px;
+			margin: 0 auto;
+		}
+
+		#zzjx, #yjwc{
+			width: 100%;
+			height: 31px;
+			font-size: 1.5em;
+			font-weight: bold;
+			margin: 20px 0;
+			position: relative;
+		}
+
+		#zzjx span, #yjwc span{
+			position: absolute;
+	    top: 2px;
+	    right: 5px;
+	    display: inline-block;
+	    padding: 0 5px;
+	    height: 20px;
+	    border-radius: 20px;
+	    background: #E6E6FA;
+	    line-height: 22px;
+	    text-align: center;
+	    color: #666;
+	    font-size: 14px;
+	    font-weight: bold;
+		}
+
+		#zzjxx, #yjwcx{
+			width: 100%;
+			height: 100%;
+			min-height: 20px;
+			background: #CDCDCD;
+		}
+
+		.last{
+			color: #666;
+			font-size: 14px;
+			text-align: center;
+		}
+		
+		a:nth-child(2){
+			color: #999;
+			text-decoration: none;
+		}
+
+		.pclass{
+			height: 32px;
+	    line-height: 32px;
+	    background: white;
+	    position: relative;
+	    margin: 0 0 10px 0;
+	    padding: 0 45px;
+	    border-radius: 3px;
+	    border-left: 5px solid #629A9C;
+	    box-shadow: 0 1px 2px rgba(0,0,0,0.07);
+	    position: relative;
+		}
+
+		.inpdgclass{
+			position: absolute;
+	    top: 2px;
+	    left: 10px;
+	    width: 22px;
+	    height: 22px;
+		}
+
+		.aqcclass{
+			position: absolute;
+	    top: 2px;
+	    right: 5px;
+	    width: 14px;
+	    height: 12px;
+	    border-radius: 14px;
+	    border: 6px double #FFF;
+	    background: #CCC;
+	    line-height: 14px;
+	    text-align: center;
+	    color: #FFF;
+	    font-weight: bold;
+	    font-size: 14px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="top">
+		<div>
+			<a href="#">ToDoList</a>
+			<input type="text" placeholder="添加ToDo" title="请填写此字段!" id="SRK" onkeydown="return sousuo(event)" class="putclass" />
+		</div>
+	</div>
+
+	<div class="content">
+		<div id="zzjx">
+			正在进行
+			<span id="sp">0</span>
+		</div>
+		<div id="zzjxx" ondrop="drop(event)" ondragover="twh(event)">
+		</div>
+		<div id="yjwc">
+			已经完成
+			<span id="spn">0</span>
+		</div>
+		<div id="yjwcx" ondrop="drop(event)" ondragover="twh(event)">
+			
+		</div>
+	</div>
+	<div class="last">
+		<span>Copyright &copy; 2014 todolist.cn</span>	
+		<a href="#">clear</a>
+	</div>
+
+<script>
+		/*
+		 *获取zzjxx这个div的ID
+		 * 获取yjwcx这个div的ID
+		 */
+		var zzjxx = document.getElementById("zzjxx");
+		var yjwcx = document.getElementById("yjwcx");
+
+		window.onload = init;
+		function init(){
+			var jl1 = localStorage.getItem("zzjl");
+			var jl2 = localStorage.getItem("yjjl");
+			zzjxx.innerHTML = jl1;
+			yjwcx.innerHTML = jl2;
+		} 
+
+
+		/*
+		 * 定义n=0
+		 * 创建sousuo(EVEVT)
+		 * 创建一个p标
+		 * 创建一个input标签
+		 * 创建一个a标签
+		 * 把输入在SRK中的值赋给sr
+		 * 创建的p标签的内容等于输入在SRK的内容
+		 * p标签的CLASS名是pclass
+		 * input标签的CLASS名是inpdgclass
+		 * a标签的CLASS名是aqcclass
+		 * 给p标签添加ID名
+		 * p标签可以拖动
+		 * 用户开始拖动元素时触发
+		 * 把input的type变成复选框
+		 * 给复选框添加一个点击事件
+		 * 给a标签添加一个点击事件
+		 * 如果按得键是回车  （回车键是13
+		 * 那么把p标签放到名字是“zzjxx”这个div标签中
+		 * 那么把input标签放到名字是“text”这个p标签中
+		 * 那么把a标签放到名字是“text”这个p标签中
+		 * 回车之后输入框的内容为空
+		 * 调用szbh()方法
+		 * 回车时n++
+		 */
+		var n=0;
+		function sousuo(ev){
+			var text = document.createElement("p");
+			var inpdg = document.createElement("input");
+			var span = document.createElement("span");
+			var aqc = document.createElement("a");
+			var sr = document.getElementById("SRK");
+			span.innerHTML = sr.value;
+			text.className = 'pclass';
+			inpdg.className = "inpdgclass";
+			aqc.className = "aqcclass";
+			text.setAttribute("id","p"+n);
+			text.setAttribute("draggable","true");
+			text.setAttribute("ondragstart","begin(event)");
+			inpdg.setAttribute("type","checkbox");
+			inpdg.setAttribute("onclick","setUp(event)");
+			aqc.setAttribute("onclick","del(this)");
+			aqc.setAttribute("title","你确认你要删除");
+				if(ev.keyCode == 13){
+						if(sr.value == ''){
+							alert("不能创建空的标签");
+						}else {
+							zzjxx.appendChild(text);
+							text.appendChild(inpdg);
+							text.appendChild(span);
+							text.appendChild(aqc);
+							sr.value = "";
+							local_jl();
+							szOne();
+							n++;
+						}
+				}			
+     }
+
+     /*
+     	* 创建del(THIS)
+     	* 把点击事件的父元素赋值给FA
+     	* FA的父元素删除FA这个子元素
+      */
+     function del(a){
+     	var fa = a.parentNode;
+     	fa.parentNode.removeChild(fa);
+     	local_jl();
+		 	szOne();
+     }
+
+     /*
+			* 创建setUp(event)
+			* 创建的点击事件
+			* 如果复选框没有选
+			* 那么点击事件的父元素移动到ZZJXX
+			* 调用szOne
+			* 如果复选框选了
+			* 那么点击事件的父元素移动到YJWCX
+			* 调用szOne
+      */
+     function setUp(event){
+				if(event.target.checked==false){
+					zzjxx.appendChild(event.target.parentNode);
+					szOne();
+					local_jl();
+				}
+				if(event.target.checked==true){
+					yjwcx.appendChild(event.target.parentNode);
+					szOne();
+					local_jl();
+				}
+     }
+
+     /*
+      *	创建szOne()
+      *	用sp代表ID名为sp的span标签
+      *	用spn代表ID名为spn的span标签
+      *	用a代表zzjxx的所有p标签的数量
+      *	用b代表yjwcx的所有p标签的数量
+      *	ID名为sp的span记录zzjxx中所创建的所有p标签的数量
+      *	ID名为spn的span记录yjwcx中所创建的所有p标签的数量
+      */
+     function szOne(){
+			var sp = document.getElementById("sp");
+			var spn = document.getElementById("spn");
+      var a = zzjxx.getElementsByTagName("p").length;
+      var b = yjwcx.getElementsByTagName("p").length;
+      sp.innerHTML = a;
+      spn.innerHTML = b;
+     }
+
+		/*
+		 * ！！！拖动！！！
+		 * 创建一个关于拖动方法
+		 * 用Textid保存text的ID
+		 */
+		function begin(eve) {
+			eve.dataTransfer.setData("Textid",eve.target.id);
+		}
+
+		/*
+		 * 拖动时调用drop方法
+		 * 取消事件的默认动作
+		 * 用aaa来接收保存在Textid的ID
+		 * 如果evn.target的ID是yjwcx或者是zzjxx
+		 * 执行把ID名为aaa的p元素移动到另一个div中
+		 * else
+		 * 执行把ID名为aaa的p元素移动到P的父元素（div）中
+		 */
+		function drop(evn) {
+			evn.preventDefault();
+			var aaa = evn.dataTransfer.getData("Textid");
+			if (evn.target.id=="yjwcx"|| evn.target.id == "zzjxx") {
+				evn.target.appendChild(document.getElementById(aaa));
+			}else {
+				evn.target.parentNode.appendChild(document.getElementById(aaa));
+			}
+			szOne();
+		}
+
+		/*
+		 * 取消事件的默认动作
+		 */
+		function twh(event) {
+			event.preventDefault();
+			local_jl();
+			var aaa = event.dataTransfer.getData("Textid");
+			if(event.target.id == "zzjxx"){
+				document.getElementById("aaa").firstChild.checked = false;
+			}
+			if(event.target.id == "yjwcx"){
+				document.getElementById("aaa").firstChild.checked = true;
+			}
+		}
+
+		//调用方法保存记录	
+		function local_jl(){
+			var zzjl = zzjxx.innerHTML;
+			var yjjl = yjwcx.innerHTML;
+			localStorage.setItem("zzjl",zzjl);
+			localStorage.setItem("yjjl",yjjl);
+		}
+
+</script>
+</body>
+</html>
+<!--    //   	var text = document.createElement("p");
+			// var inpdg = document.createElement("input");
+			// var aqc = document.createElement("a");
+			// text.innerHTML = wb;
+			// text.className = 'pclass';
+			// inpdg.className = "inpdgclass";
+			// aqc.className = "aqcclass";
+			// inpdg.setAttribute("type","checkbox");
+			
+			// aqc.setAttribute("onclick","del(this)");
+   //   	yjwcx.appendChild(text);
+   //   	text.appendChild(inpdg);
+			// text.appendChild(aqc); -->
