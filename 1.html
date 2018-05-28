@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<script>
+		var m = 0;
+		function fxk(){
+			var left =document.getElementById("leftone");     //获取leftone的ID
+			var div = document.createElement("div");          //创建div
+			var tex = document.createElement("p");            //创建p标签
+			div.setAttribute("onclick","GU(c4)");							//添加点击事件给  div标签     很重要
+			div.setAttribute("id","dixfx"+m);
+			left.appendChild(div);													//把未命名的p标签放到leftone中
+			div.appendChild(tex);                            //把tex放到div中
+			div.className = "divcla";                       //div用名字为divcla的class
+			tex.className = "texcla";
+			tex.innerHTML = "未命名";
+			fxkONE();
+			fxkONE();
+			fxkONE();
+			m++
+		}
+
+		function fxkONE(){
+			var div = document.getElementById("divfx"+m);
+			var te1 = document.createElement("p");           //创建3个p标签
+			var inp = document.createElement("input");        //创建3个input标签
+			var spa = document.createElement("span");							//创建3个span
+			inp.setAttribute("type","checkbox");             //input是复选框
+			inp.setAttribute("disabled","");              //让这个input标签不能获取焦点
+			div.appendChild(te);														//把3个p标签放到div中
+			te.appendChild(inp);                         //把3个input标签分别放到对应的p标签中
+			te.appendChild(spa);                         //把3个span标签分别放到对应的p标签中
+			te.className = "pcla";                        //3个p标签名字为pcla的class
+			inp.className = "inpacla";                   //3个input标签名字为inpacla的class
+			spa.className = "spcla";                 //3个span标签名字为spcla的class
+			spa.innerHTML = "未命名";                    //3个span的innerHTML为未命名
+			a++;
+		}
+	</script>
+</body>
+</html>
