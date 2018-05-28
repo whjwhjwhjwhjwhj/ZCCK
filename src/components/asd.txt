@@ -1,0 +1,50 @@
+            <div class="shopmenu-food">
+                <!-- ngIf: food.image_path -->
+                <span class="col-1" style="float:left;">
+                    <a>
+                        <img alt="招牌大鸡排的图片" src="//fuss10.elemecdn.com/0/a1/fd5be61c05548a2437d68e6a8a854jpeg.jpeg?imageMogr2/thumbnail/100x100/format/webp/quality/85"/>
+                    </a>
+                </span>
+                <!-- end ngIf: food.image_path -->
+                <div class="col-2">
+                    <h3 class="shopmenu-food-name ui-ellipsis ng-binding">
+                        招牌大鸡排
+                    </h3>
+                    <p class="color-mute ui-ellipsis ng-binding">
+                    </p>
+                    <p>
+                        <div class="starrating icon-star ng-isolate-scope" title="评分4.1分">
+                            <span class="icon-star" style="width: 82.4%;">
+                            </span>
+                        </div>
+                        <span class="color-mute ng-binding">
+                            (40)
+                        </span>
+                        <span class="color-mute ng-binding">
+                            月售200+份
+                        </span>
+                    </p>
+                </div>
+                <span class="col-3" style="float:left;">
+                    14
+                    <small class="ng-binding">
+                        起
+                    </small>
+                    <!-- ngIf: food.min_purchase && food.min_purchase > 1 -->
+                </span>
+                <span class="col-4">
+                    <div class="ng-isolate-scope">
+                        <!-- ngIf: !menuFood.hasSpec -->
+                        <!-- ngIf: menuFood.hasSpec -->
+                        <div class="ng-scope">
+                            <!-- ngIf: !cartSpec.quantity -->
+                            <button class="shop-cartbutton ng-scope ng-isolate-scope">
+                                选规格
+                            </button>
+                            <!-- end ngIf: !cartSpec.quantity -->
+                            <!-- ngIf: cartSpec.quantity -->
+                        </div>
+                        <!-- end ngIf: menuFood.hasSpec -->
+                    </div>
+                </span>
+            </div>
